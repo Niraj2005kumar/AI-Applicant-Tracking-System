@@ -3,14 +3,14 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
+import jobRoutes from "./routes/jobRoutes.js";
 
-// Load Environment Variables
 dotenv.config();
 
 const app = express();
 
 
-// Connect Database
+
 await connectDB();
 
 // Middlewares
@@ -18,6 +18,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
+app.use("/api/jobs", jobRoutes);
 
 // Health Check Route
 app.get("/", (req, res) => {
