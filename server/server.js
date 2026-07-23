@@ -1,27 +1,34 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+
 import connectDB from "./config/db.js";
+
 import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import applicationRoutes from "./routes/applicationRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 
 const app = express();
 
-
-
+// Database Connection
 await connectDB();
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Static Folder for Uploaded Files
+app.use("/uploads", express.static("uploads"));
+
+// API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/applications", applicationRoutes);
-
+app.use("/api/users", userRoutes);
 
 // Health Check Route
 app.get("/", (req, res) => {
@@ -33,7 +40,7 @@ app.get("/", (req, res) => {
 
 // Default Route
 app.get("/api", (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
     message: "Welcome to AI Powered ATS API",
   });
