@@ -1,0 +1,5 @@
+import userRoutes from "./routes/userRoutes.js";
+
+app.use("/uploads", express.static("uploads"));
+
+app.use("/api/users", userRoutes);
