@@ -1,4 +1,7 @@
+import mongoose from "mongoose";
 import Company from "../models/Company.js";
+
+const isValidCompanyId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 export const createCompany = async (req, res) => {
   try {
@@ -75,6 +78,13 @@ export const getAllCompanies = async (req, res) => {
 
 export const getCompanyById = async (req, res) => {
   try {
+    if (!isValidCompanyId(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid company id.",
+      });
+    }
+
     const company = await Company.findById(req.params.id).populate(
       "owner",
       "name email"
@@ -103,6 +113,13 @@ export const getCompanyById = async (req, res) => {
 
 export const updateCompany = async (req, res) => {
   try {
+    if (!isValidCompanyId(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid company id.",
+      });
+    }
+
     const company = await Company.findById(req.params.id);
 
     if (!company) {
@@ -145,6 +162,13 @@ export const updateCompany = async (req, res) => {
 
 export const deleteCompany = async (req, res) => {
   try {
+    if (!isValidCompanyId(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid company id.",
+      });
+    }
+
     const company = await Company.findById(req.params.id);
 
     if (!company) {

@@ -15,6 +15,8 @@ const router = express.Router();
 router.get("/", getAllJobs);
 router.get("/:id", getJobById);
 
+
+
 // Recruiter & Admin Only
 router.post(
   "/",

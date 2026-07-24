@@ -1,6 +1,5 @@
 import Job from "../models/Job.js";
 
-// Create Job
 export const createJob = async (req, res) => {
   try {
     const {
@@ -32,10 +31,14 @@ export const createJob = async (req, res) => {
       recruiter: req.user._id,
     });
 
+    const populatedJob = await Job.findById(job._id)
+      .populate("company")
+      .populate("recruiter", "name email");
+
     res.status(201).json({
       success: true,
       message: "Job created successfully.",
-      job,
+      job: populatedJob,
     });
   } catch (error) {
     console.error(error);
@@ -47,16 +50,113 @@ export const createJob = async (req, res) => {
   }
 };
 
-// Get All Jobs
 export const getAllJobs = async (req, res) => {
   try {
-    const jobs = await Job.find()
+    const {
+      keyword,
+      location,
+      company,
+      experience,
+      salary,
+      jobType,
+      sort,
+      page = 1,
+      limit = 10,
+    } = req.query;
+
+    const query = {
+      isActive: true,
+    };
+
+    if (keyword) {
+      query.$or = [
+        {
+          title: {
+            $regex: keyword,
+            $options: "i",
+          },
+        },
+        {
+          description: {
+            $regex: keyword,
+            $options: "i",
+          },
+        },
+        {
+          skills: {
+            $in: [new RegExp(keyword, "i")],
+          },
+        },
+      ];
+    }
+
+    if (location) {
+      query.location = {
+        $regex: location,
+        $options: "i",
+      };
+    }
+
+    if (company) {
+      query.company = company;
+    }
+
+    if (jobType) {
+      query.jobType = jobType;
+    }
+
+    if (experience) {
+      query.experience = {
+        $gte: Number(experience),
+      };
+    }
+
+    if (salary) {
+      query.salary = {
+        $gte: Number(salary),
+      };
+    }
+
+    let sortOption = {
+      createdAt: -1,
+    };
+
+    if (sort === "oldest") {
+      sortOption = {
+        createdAt: 1,
+      };
+    }
+
+    if (sort === "salary") {
+      sortOption = {
+        salary: -1,
+      };
+    }
+
+    if (sort === "experience") {
+      sortOption = {
+        experience: -1,
+      };
+    }
+
+    const currentPage = Number(page);
+    const pageLimit = Number(limit);
+
+    const totalJobs = await Job.countDocuments(query);
+
+    const jobs = await Job.find(query)
+      .populate("company")
       .populate("recruiter", "name email")
-      .sort({ createdAt: -1 });
+      .sort(sortOption)
+      .skip((currentPage - 1) * pageLimit)
+      .limit(pageLimit);
 
     res.status(200).json({
       success: true,
-      count: jobs.length,
+      totalJobs,
+      currentPage,
+      totalPages: Math.ceil(totalJobs / pageLimit),
+      limit: pageLimit,
       jobs,
     });
   } catch (error) {
@@ -69,13 +169,11 @@ export const getAllJobs = async (req, res) => {
   }
 };
 
-// Get Single Job
 export const getJobById = async (req, res) => {
   try {
-    const job = await Job.findById(req.params.id).populate(
-      "recruiter",
-      "name email"
-    );
+    const job = await Job.findById(req.params.id)
+      .populate("company")
+      .populate("recruiter", "name email");
 
     if (!job) {
       return res.status(404).json({
@@ -98,7 +196,6 @@ export const getJobById = async (req, res) => {
   }
 };
 
-// Update Job
 export const updateJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);
@@ -113,7 +210,7 @@ export const updateJob = async (req, res) => {
     if (job.recruiter.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
-        message: "You are not authorized to update this job.",
+        message: "Access denied.",
       });
     }
 
@@ -124,7 +221,9 @@ export const updateJob = async (req, res) => {
         new: true,
         runValidators: true,
       }
-    );
+    )
+      .populate("company")
+      .populate("recruiter", "name email");
 
     res.status(200).json({
       success: true,
@@ -141,7 +240,6 @@ export const updateJob = async (req, res) => {
   }
 };
 
-// Delete Job
 export const deleteJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);
@@ -156,11 +254,11 @@ export const deleteJob = async (req, res) => {
     if (job.recruiter.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
-        message: "You are not authorized to delete this job.",
+        message: "Access denied.",
       });
     }
 
-    await job.deleteOne();
+    await Job.findByIdAndDelete(req.params.id);
 
     res.status(200).json({
       success: true,
