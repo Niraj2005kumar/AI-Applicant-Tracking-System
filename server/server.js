@@ -8,6 +8,8 @@ import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import applicationRoutes from "./routes/applicationRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
+import bookmarkRoutes from "./routes/bookmarkRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
 
 dotenv.config();
@@ -24,11 +26,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/company", companyRoutes);
 app.use("/uploads", express.static("uploads"));
 
-
+app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/bookmarks", bookmarkRoutes);
+
 
 // Health Check Route
 app.get("/", (req, res) => {
