@@ -9,6 +9,7 @@ import jobRoutes from "./routes/jobRoutes.js";
 import applicationRoutes from "./routes/applicationRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import recruiterDashboardRoutes from "./routes/recruiterDashboardRoutes.js";
 import bookmarkRoutes from "./routes/bookmarkRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
 
@@ -27,6 +28,8 @@ app.use("/api/company", companyRoutes);
 app.use("/uploads", express.static("uploads"));
 
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/dashboard", recruiterDashboardRoutes);
+app.use("/api/recruiter-dashboard", recruiterDashboardRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/applications", applicationRoutes);
