@@ -27,7 +27,13 @@ const applicationSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["Pending", "Reviewed", "Shortlisted", "Rejected"],
+      enum: [
+        "Pending",
+        "Reviewed",
+        "Shortlisted",
+        "Rejected",
+        "Hired",
+      ],
       default: "Pending",
     },
 
@@ -41,10 +47,14 @@ const applicationSchema = new mongoose.Schema(
   }
 );
 
-// Prevent duplicate applications for the same job by the same candidate
 applicationSchema.index(
-  { candidate: 1, job: 1 },
-  { unique: true }
+  {
+    candidate: 1,
+    job: 1,
+  },
+  {
+    unique: true,
+  }
 );
 
 const Application = mongoose.model("Application", applicationSchema);
