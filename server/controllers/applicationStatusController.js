@@ -301,8 +301,6 @@ export const getApplicationStatistics = async (req, res) => {
     });
   }
 };
-<<<<<<< HEAD
-=======
 
 
 const populatedApplication = await Application.findById(application._id)
@@ -373,4 +371,3 @@ try {
 } catch (emailError) {
   console.error(emailError);
 }
->>>>>>> 4bf1c58 (Added email notification system for application status updates)
