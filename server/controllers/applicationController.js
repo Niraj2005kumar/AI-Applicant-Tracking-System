@@ -1,6 +1,7 @@
 
 import Application from "../models/Application.js";
 import Job from "../models/Job.js";
+import { createNotification } from "./notificationController.js";
 
 // Apply for a Job
 export const applyForJob = async (req, res) => {
@@ -34,6 +35,15 @@ export const applyForJob = async (req, res) => {
       job: jobId,
       coverLetter,
       resume,
+    });
+
+    await createNotification({
+      recipient: job.recruiter,
+      sender: req.user._id,
+      title: "New Application",
+      message: `A new application has been submitted for ${job.title}.`,
+      type: "Application",
+      relatedId: application._id,
     });
 
     res.status(201).json({

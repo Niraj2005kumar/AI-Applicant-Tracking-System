@@ -3,6 +3,7 @@ import Interview from "../models/Interview.js";
 import Application from "../models/Application.js";
 import Job from "../models/Job.js";
 import sendEmail from "../utils/sendEmail.js";
+import { createNotification } from "./notificationController.js";
 
 export const scheduleInterview = async (req, res) => {
   try {
@@ -106,6 +107,15 @@ export const scheduleInterview = async (req, res) => {
     });
 
     try {
+      await createNotification({
+        recipient: application.candidate._id,
+        sender: req.user._id,
+        title: "Interview Scheduled",
+        message: `Your interview for ${application.job.title} has been scheduled.`,
+        type: "Interview",
+        relatedId: interview._id,
+      });
+
       await sendEmail({
         to: application.candidate.email,
         subject: "Interview Scheduled",
@@ -525,6 +535,15 @@ export const updateInterview = async (req, res) => {
     await interview.save();
 
     try {
+      await createNotification({
+        recipient: interview.candidate._id,
+        sender: req.user._id,
+        title: "Interview Updated",
+        message: `Your interview for ${interview.job.title} has been updated.`,
+        type: "Interview",
+        relatedId: interview._id,
+      });
+
       await sendEmail({
         to: interview.candidate.email,
         subject: "Interview Updated",
@@ -650,6 +669,15 @@ export const cancelInterview = async (req, res) => {
     await interview.save();
 
     try {
+      await createNotification({
+        recipient: interview.candidate._id,
+        sender: req.user._id,
+        title: "Interview Cancelled",
+        message: `Your interview for ${interview.job.title} has been cancelled.`,
+        type: "Interview",
+        relatedId: interview._id,
+      });
+
       await sendEmail({
         to: interview.candidate.email,
         subject: "Interview Cancelled",

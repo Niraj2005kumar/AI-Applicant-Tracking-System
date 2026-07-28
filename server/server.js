@@ -12,6 +12,7 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 import recruiterDashboardRoutes from "./routes/recruiterDashboardRoutes.js";
 import bookmarkRoutes from "./routes/bookmarkRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
+import notificationRoutes from "./routes/notificationRoutes.js";
 import applicationStatusRoutes from "./routes/applicationStatusRoutes.js";
 import interviewRoutes from "./routes/interviewRoutes.js";
 
@@ -30,6 +31,7 @@ app.use("/api/company", companyRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/interviews", interviewRoutes);
 app.use("/api/applications", applicationStatusRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/dashboard", recruiterDashboardRoutes);

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Application from "../models/Application.js";
 import Job from "../models/Job.js";
 import sendEmail from "../utils/sendEmail.js";
+import { createNotification } from "./notificationController.js";
 
 const validStatuses = [
   "Pending",
@@ -108,6 +109,15 @@ export const updateApplicationStatus = async (req, res) => {
     }
 
     try {
+      await createNotification({
+        recipient: candidate._id,
+        sender: req.user._id,
+        title: "Application Status Updated",
+        message: `Your application for ${jobDetails.title} is now ${status}.`,
+        type: "Application",
+        relatedId: updatedApplication._id,
+      });
+
       await sendEmail({
         to: candidate.email,
         subject: "Application Status Updated",
