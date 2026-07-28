@@ -13,6 +13,7 @@ import recruiterDashboardRoutes from "./routes/recruiterDashboardRoutes.js";
 import bookmarkRoutes from "./routes/bookmarkRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
 import applicationStatusRoutes from "./routes/applicationStatusRoutes.js";
+import interviewRoutes from "./routes/interviewRoutes.js";
 
 import applicationRoutes from "./routes/applicationRoutes.js";
 
@@ -29,7 +30,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/company", companyRoutes);
 app.use("/uploads", express.static("uploads"));
-
+app.use("/api/interviews", interviewRoutes);
 app.use("/api/applications", applicationStatusRoutes);
 
 app.use("/api/dashboard", dashboardRoutes);
