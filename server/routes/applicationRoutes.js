@@ -2,54 +2,42 @@ import express from "express";
 import {
   applyForJob,
   getMyApplications,
-  getApplicationsByJob,
-  updateApplicationStatus,
-  deleteApplication,
+  getJobApplications,
+  withdrawApplication,
 } from "../controllers/applicationController.js";
-
 import authMiddleware from "../middleware/authMiddleware.js";
-import authorizeRoles from "../middleware/roleMiddleware.js";
+import roleMiddleware from "../middleware/roleMiddleware.js";
+import upload from "../middleware/uploadMiddleware.js";
 
 const router = express.Router();
 
-// Candidate Apply for Job
 router.post(
   "/apply/:jobId",
   authMiddleware,
-  authorizeRoles("candidate"),
+  roleMiddleware("candidate"),
+  upload.single("resume"),
   applyForJob
 );
 
-// Candidate - View Own Applications
 router.get(
-  "/my",
+  "/my-applications",
   authMiddleware,
-  authorizeRoles("candidate"),
+  roleMiddleware("candidate"),
   getMyApplications
 );
 
-// Recruiter/Admin - View Applications for a Job
 router.get(
   "/job/:jobId",
   authMiddleware,
-  authorizeRoles("recruiter", "admin"),
-  getApplicationsByJob
+  roleMiddleware("recruiter"),
+  getJobApplications
 );
 
-// Recruiter/Admin - Update Application Status
-router.put(
-  "/:id/status",
-  authMiddleware,
-  authorizeRoles("recruiter", "admin"),
-  updateApplicationStatus
-);
-
-// Candidate/Admin - Delete Application
 router.delete(
-  "/:id",
+  "/withdraw/:id",
   authMiddleware,
-  authorizeRoles("candidate", "admin"),
-  deleteApplication
+  roleMiddleware("candidate"),
+  withdrawApplication
 );
 
 export default router;
