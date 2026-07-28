@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Application from "../models/Application.js";
 import Job from "../models/Job.js";
+import sendEmail from "../utils/sendEmail.js";
 
 const validStatuses = [
   "Pending",
@@ -77,6 +78,58 @@ export const updateApplicationStatus = async (req, res) => {
           select: "name logo website location",
         },
       });
+
+    const candidate = updatedApplication.candidate;
+    const jobDetails = updatedApplication.job;
+    const company = jobDetails.company;
+
+    let message = "";
+
+    switch (status) {
+      case "Reviewed":
+        message = "Your application has been reviewed by the recruiter.";
+        break;
+
+      case "Shortlisted":
+        message =
+          "Congratulations! You have been shortlisted for the next round.";
+        break;
+
+      case "Rejected":
+        message = "Thank you for applying. Unfortunately, you were not selected.";
+        break;
+
+      case "Hired":
+        message = "Congratulations! You have been selected for this position.";
+        break;
+
+      default:
+        message = "Your application status has been updated.";
+    }
+
+    try {
+      await sendEmail({
+        to: candidate.email,
+        subject: "Application Status Updated",
+        html: `
+          <h2>Hello ${candidate.name},</h2>
+
+          <p>Your application for <strong>${jobDetails.title}</strong> at
+          <strong>${company.name}</strong> has been updated.</p>
+
+          <p><strong>Current Status:</strong> ${status}</p>
+
+          <p>${message}</p>
+
+          <br>
+
+          <p>Best Regards,</p>
+          <p>AI Powered Applicant Tracking System</p>
+        `,
+      });
+    } catch (emailError) {
+      console.error(emailError);
+    }
 
     res.status(200).json({
       success: true,
@@ -301,73 +354,3 @@ export const getApplicationStatistics = async (req, res) => {
     });
   }
 };
-
-
-const populatedApplication = await Application.findById(application._id)
-  .populate(
-    "candidate",
-    "name email phone profileImage resume skills experience education location bio"
-  )
-  .populate({
-    path: "job",
-    populate: {
-      path: "company",
-      select: "name logo website location",
-    },
-  });
-
-const candidate = populatedApplication.candidate;
-const jobDetails = populatedApplication.job;
-const company = jobDetails.company;
-
-let message = "";
-
-switch (status) {
-  case "Reviewed":
-    message =
-      "Your application has been reviewed by the recruiter.";
-    break;
-
-  case "Shortlisted":
-    message =
-      "Congratulations! You have been shortlisted for the next round.";
-    break;
-
-  case "Rejected":
-    message =
-      "Thank you for applying. Unfortunately, you were not selected.";
-    break;
-
-  case "Hired":
-    message =
-      "Congratulations! You have been selected for this position.";
-    break;
-
-  default:
-    message =
-      "Your application status has been updated.";
-}
-
-try {
-  await sendEmail({
-    to: candidate.email,
-    subject: "Application Status Updated",
-    html: `
-      <h2>Hello ${candidate.name},</h2>
-
-      <p>Your application for <strong>${jobDetails.title}</strong> at
-      <strong>${company.name}</strong> has been updated.</p>
-
-      <p><strong>Current Status:</strong> ${status}</p>
-
-      <p>${message}</p>
-
-      <br>
-
-      <p>Best Regards,</p>
-      <p>AI Powered Applicant Tracking System</p>
-    `,
-  });
-} catch (emailError) {
-  console.error(emailError);
-}

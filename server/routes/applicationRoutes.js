@@ -2,8 +2,8 @@ import express from "express";
 import {
   applyForJob,
   getMyApplications,
-  getJobApplications,
-  withdrawApplication,
+  getApplicationsByJob,
+  deleteApplication,
 } from "../controllers/applicationController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import roleMiddleware from "../middleware/roleMiddleware.js";
@@ -30,14 +30,14 @@ router.get(
   "/job/:jobId",
   authMiddleware,
   roleMiddleware("recruiter"),
-  getJobApplications
+  getApplicationsByJob
 );
 
 router.delete(
   "/withdraw/:id",
   authMiddleware,
   roleMiddleware("candidate"),
-  withdrawApplication
+  deleteApplication
 );
 
 export default router;

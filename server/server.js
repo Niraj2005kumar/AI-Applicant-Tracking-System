@@ -15,8 +15,6 @@ import companyRoutes from "./routes/companyRoutes.js";
 import applicationStatusRoutes from "./routes/applicationStatusRoutes.js";
 import interviewRoutes from "./routes/interviewRoutes.js";
 
-import applicationRoutes from "./routes/applicationRoutes.js";
-
 dotenv.config();
 
 const app = express();
@@ -41,8 +39,6 @@ app.use("/api/jobs", jobRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/bookmarks", bookmarkRoutes);
-app.use("/api/applications", applicationRoutes);
-
 
 // Health Check Route
 app.get("/", (req, res) => {
