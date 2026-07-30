@@ -1,12 +1,14 @@
 
 import Application from "../models/Application.js";
 import Job from "../models/Job.js";
+import User from "../models/User.js";
 import { createNotification } from "./notificationController.js";
+import { extractTextFromPDF, parseResumeText, matchResumeWithJob } from "../services/aiService.js";
 
 // Apply for a Job
 export const applyForJob = async (req, res) => {
   try {
-    const { coverLetter, resume } = req.body;
+    const { coverLetter } = req.body;
     const { jobId } = req.params;
 
     const job = await Job.findById(jobId);
@@ -30,18 +32,91 @@ export const applyForJob = async (req, res) => {
       });
     }
 
+    // Determine the resume file to use
+    let resumePath = "";
+    if (req.file) {
+      resumePath = `/uploads/${req.file.filename}`;
+    } else {
+      // Fallback to user profile resume
+      const user = await User.findById(req.user._id);
+      if (user && user.resume) {
+        resumePath = user.resume;
+      }
+    }
+
+    if (!resumePath) {
+      return res.status(400).json({
+        success: false,
+        message: "Resume is required. Please upload a file or complete your profile resume.",
+      });
+    }
+
+    // AI Parsing & Score Analysis
+    let resumeText = "";
+    let parsedResume = {
+      skills: [],
+      experience: 1,
+      education: "Not Specified",
+      certifications: [],
+      projects: [],
+      keywords: []
+    };
+    let matchScores = {
+      atsScore: 50,
+      matchPercentage: 50,
+      skillMatch: 50,
+      experienceMatch: 50,
+      recommendation: "Neutral",
+      keywords: []
+    };
+
+    try {
+      if (resumePath.toLowerCase().endsWith(".pdf")) {
+        resumeText = await extractTextFromPDF(resumePath);
+        parsedResume = parseResumeText(resumeText);
+        matchScores = matchResumeWithJob(parsedResume, job);
+      } else {
+        // Fallback using candidates database profile details
+        const user = await User.findById(req.user._id);
+        parsedResume = {
+          skills: user.skills || [],
+          experience: user.experience || 1,
+          education: user.education || "Bachelor's Degree",
+          certifications: [],
+          projects: [],
+          keywords: []
+        };
+        matchScores = matchResumeWithJob(parsedResume, job);
+      }
+    } catch (parseErr) {
+      console.error("AI Parsing failed during application:", parseErr);
+    }
+
     const application = await Application.create({
       candidate: req.user._id,
       job: jobId,
-      coverLetter,
-      resume,
+      coverLetter: coverLetter || "",
+      resume: resumePath,
+      // AI details
+      resumeText,
+      skills: parsedResume.skills,
+      experience: parsedResume.experience,
+      education: parsedResume.education,
+      certifications: parsedResume.certifications,
+      projects: parsedResume.projects,
+      keywords: matchScores.keywords,
+      atsScore: matchScores.atsScore,
+      matchPercentage: matchScores.matchPercentage,
+      skillMatch: matchScores.skillMatch,
+      experienceMatch: matchScores.experienceMatch,
+      recommendation: matchScores.recommendation
     });
 
     await createNotification({
       recipient: job.recruiter,
       sender: req.user._id,
       title: "New Application",
-      message: `A new application has been submitted for ${job.title}.`,
+      message: `A new application has been submitted for ${job.title}. ATS Match Score: ${application.atsScore}%.`,
       type: "Application",
       relatedId: application._id,
     });

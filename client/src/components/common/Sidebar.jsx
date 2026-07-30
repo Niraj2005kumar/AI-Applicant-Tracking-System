@@ -18,8 +18,8 @@ const Sidebar = () => {
     { name: "Applied Jobs", path: "/candidate/applied-jobs" },
     { name: "Saved Jobs", path: "/candidate/saved-jobs" },
     { name: "Resume", path: "/candidate/resume" },
-    { name: "Notifications", path: "/notifications" },
-    { name: "Settings", path: "/settings" },
+    { name: "Notifications", path: "/candidate/notifications" },
+    { name: "Settings", path: "/candidate/profile" },
   ];
 
   const recruiterLinks = [
@@ -29,8 +29,8 @@ const Sidebar = () => {
     { name: "Manage Jobs", path: "/recruiter/jobs" },
     { name: "Applicants", path: "/recruiter/applicants" },
     { name: "Interviews", path: "/recruiter/interviews" },
-    { name: "Notifications", path: "/notifications" },
-    { name: "Settings", path: "/settings" },
+    { name: "Notifications", path: "/recruiter/notifications" },
+    { name: "Settings", path: "/recruiter/profile" },
   ];
 
   const adminLinks = [

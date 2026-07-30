@@ -12,7 +12,7 @@ const authService = {
   },
 
   getCurrentUser: async () => {
-    const { data } = await api.get("/auth/me");
+    const { data } = await api.get("/auth/profile");
     return data;
   },
 

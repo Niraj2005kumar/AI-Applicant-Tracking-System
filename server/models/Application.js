@@ -37,6 +37,69 @@ const applicationSchema = new mongoose.Schema(
       default: "Pending",
     },
 
+    // AI Resume Extraction
+    resumeText: {
+      type: String,
+      default: "",
+    },
+
+    skills: {
+      type: [String],
+      default: [],
+    },
+
+    experience: {
+      type: Number,
+      default: 0,
+    },
+
+    education: {
+      type: String,
+      default: "",
+    },
+
+    certifications: {
+      type: [String],
+      default: [],
+    },
+
+    projects: {
+      type: [String],
+      default: [],
+    },
+
+    keywords: {
+      type: [String],
+      default: [],
+    },
+
+    // AI Match Scores
+    atsScore: {
+      type: Number,
+      default: 0,
+    },
+
+    matchPercentage: {
+      type: Number,
+      default: 0,
+    },
+
+    skillMatch: {
+      type: Number,
+      default: 0,
+    },
+
+    experienceMatch: {
+      type: Number,
+      default: 0,
+    },
+
+    recommendation: {
+      type: String,
+      enum: ["Highly Recommended", "Recommended", "Neutral", "Not Recommended"],
+      default: "Neutral",
+    },
+
     appliedAt: {
       type: Date,
       default: Date.now,

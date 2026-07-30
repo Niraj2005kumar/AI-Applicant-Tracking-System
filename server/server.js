@@ -15,6 +15,9 @@ import companyRoutes from "./routes/companyRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
 import applicationStatusRoutes from "./routes/applicationStatusRoutes.js";
 import interviewRoutes from "./routes/interviewRoutes.js";
+import recruiterRoutes from "./routes/recruiterRoutes.js";
+import candidateRoutes from "./routes/candidateRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 dotenv.config();
 
@@ -41,6 +44,9 @@ app.use("/api/jobs", jobRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/bookmarks", bookmarkRoutes);
+app.use("/api/recruiter", recruiterRoutes);
+app.use("/api/candidate", candidateRoutes);
+app.use("/api/admin", adminRoutes);
 
 // Health Check Route
 app.get("/", (req, res) => {

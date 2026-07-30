@@ -34,6 +34,13 @@ router.get(
 );
 
 router.get(
+  "/my",
+  authMiddleware,
+  roleMiddleware("candidate"),
+  getCandidateInterviews
+);
+
+router.get(
   "/:id",
   authMiddleware,
   getSingleInterview

@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import api from "../../api/axios";
 import Loader from "../../components/common/Loader";
 import SearchBar from "../../components/common/SearchBar";
+import InterviewForm from "../../components/interview/InterviewForm";
 import "./Applicants.css";
 
 const Applicants = () => {
   const [applicants, setApplicants] = useState([]);
   const [filteredApplicants, setFilteredApplicants] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [schedulingApplication, setSchedulingApplication] = useState(null);
 
   useEffect(() => {
     fetchApplicants();
@@ -115,26 +117,46 @@ const Applicants = () => {
               className="applicant-card"
               key={applicant._id}
             >
-              <h2>{applicant.name}</h2>
+              <div className="applicant-card-header">
+                <div>
+                  <h2>{applicant.name}</h2>
+                  <span className="job-indicator">{applicant.job?.title}</span>
+                </div>
+                {/* AI Score Badge */}
+                <div className="ai-score-badge">
+                  <span className="score-val">{applicant.atsScore}%</span>
+                  <span className="score-label">ATS Score</span>
+                </div>
+              </div>
 
-              <p>
-                <strong>Email:</strong>{" "}
-                {applicant.email}
-              </p>
+              <div className="applicant-details">
+                <p>
+                  <strong>Email:</strong> {applicant.email}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {applicant.phone || "Not provided"}
+                </p>
+                <p>
+                  <strong>AI Match Rating:</strong>
+                  <span className={`recommendation-tag ${applicant.recommendation?.toLowerCase().replace(" ", "-")}`}>
+                    {applicant.recommendation || "Neutral"}
+                  </span>
+                </p>
+                
+                {/* Match Score Meter */}
+                <div className="ats-score-meter-container">
+                  <div 
+                    className="ats-score-meter-fill" 
+                    style={{ 
+                      width: `${applicant.atsScore}%`,
+                      background: applicant.atsScore >= 80 ? "#16a34a" : applicant.atsScore >= 60 ? "#2563eb" : "#f59e0b"
+                    }}
+                  />
+                </div>
+              </div>
 
-              <p>
-                <strong>Phone:</strong>{" "}
-                {applicant.phone}
-              </p>
-
-              <p>
-                <strong>Applied For:</strong>{" "}
-                {applicant.job?.title}
-              </p>
-
-              <p>
+              <div className="applicant-status-row">
                 <strong>Status:</strong>
-
                 <span
                   className="status-badge"
                   style={{
@@ -145,51 +167,59 @@ const Applicants = () => {
                 >
                   {applicant.status}
                 </span>
-              </p>
+              </div>
 
-              {applicant.resume && (
-                <a
-                  href={applicant.resume}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="resume-btn"
+              <div className="card-actions-wrapper">
+                {applicant.resume && (
+                  <a
+                    href={`http://localhost:5000${applicant.resume}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="view-resume-btn-link"
+                  >
+                    📄 View Resume
+                  </a>
+                )}
+
+                <select
+                  value={applicant.status}
+                  onChange={(e) =>
+                    updateStatus(
+                      applicant._id,
+                      e.target.value
+                    )
+                  }
+                  className="status-dropdown-select"
                 >
-                  View Resume
-                </a>
-              )}
+                  <option value="pending">Pending</option>
+                  <option value="reviewing">Reviewing</option>
+                  <option value="shortlisted">Shortlisted</option>
+                  <option value="rejected">Rejected</option>
+                  <option value="hired">Hired</option>
+                </select>
 
-              <select
-                value={applicant.status}
-                onChange={(e) =>
-                  updateStatus(
-                    applicant._id,
-                    e.target.value
-                  )
-                }
-              >
-                <option value="pending">
-                  Pending
-                </option>
-
-                <option value="reviewing">
-                  Reviewing
-                </option>
-
-                <option value="shortlisted">
-                  Shortlisted
-                </option>
-
-                <option value="rejected">
-                  Rejected
-                </option>
-
-                <option value="hired">
-                  Hired
-                </option>
-              </select>
+                {applicant.status === "shortlisted" && (
+                  <button
+                    onClick={() => setSchedulingApplication(applicant)}
+                    className="schedule-btn-applicants"
+                  >
+                    📅 Schedule
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>
+      )}
+
+      {schedulingApplication && (
+        <InterviewForm
+          applicationId={schedulingApplication._id}
+          candidateName={schedulingApplication.name}
+          jobTitle={schedulingApplication.job?.title}
+          onClose={() => setSchedulingApplication(null)}
+          onSuccess={fetchApplicants}
+        />
       )}
     </div>
   );
