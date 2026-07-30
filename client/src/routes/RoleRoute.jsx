@@ -3,7 +3,8 @@ import { useAuth } from "../context/AuthContext";
 import Loader from "../components/common/Loader";
 
 const RoleRoute = ({ allowedRoles }) => {
-  const { user, loading, isAuthenticated } = useAuth();
+  const auth = useAuth() || {};
+  const { user = null, loading = false, isAuthenticated = false } = auth;
 
   if (loading) {
     return <Loader />;

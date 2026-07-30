@@ -3,7 +3,8 @@ import { useAuth } from "../context/AuthContext";
 import Loader from "../components/common/Loader";
 
 const ProtectedRoute = () => {
-  const { loading, isAuthenticated } = useAuth();
+  const auth = useAuth() || {};
+  const { loading = false, isAuthenticated = false } = auth;
 
   if (loading) {
     return <Loader />;

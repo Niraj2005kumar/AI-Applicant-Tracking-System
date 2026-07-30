@@ -73,7 +73,7 @@ const Sidebar = () => {
       <nav className="sidebar-menu">
         {getLinks().map((item) => (
           <NavLink
-            key={item.path}
+            key={`${item.name}-${item.path}`}
             to={item.path}
             className={({ isActive }) =>
               isActive
