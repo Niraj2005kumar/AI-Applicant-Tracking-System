@@ -1,0 +1,26 @@
+.recruiter-jobs-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recruiter-jobs-page .page-header {
+  margin-bottom: 0;
+}
+
+.recruiter-jobs-page .job-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.recruiter-jobs-page .job-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.2rem;
+}
+
+.recruiter-jobs-page .create-btn {
+  min-width: 150px;
+}

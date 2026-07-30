@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import "./Auth.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -56,14 +57,14 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-container">
+    <div className="auth-shell">
+      <div className="auth-card">
         <h1>Welcome Back</h1>
-        <p>Sign in to your ATS account</p>
+        <p>Sign in to your AI ATS workspace</p>
 
         {error && <div className="error-message">{error}</div>}
 
-        <form onSubmit={handleSubmit}>
+        <form className="auth-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Email</label>
 
@@ -94,8 +95,7 @@ const Login = () => {
         </form>
 
         <p className="auth-footer">
-          Don't have an account?{" "}
-          <Link to="/register">Register</Link>
+          Don't have an account? <Link to="/register">Register</Link>
         </p>
       </div>
     </div>

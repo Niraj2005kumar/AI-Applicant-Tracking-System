@@ -1,0 +1,35 @@
+.applications-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.applications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 1.35rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.applications-header h1 {
+  font-size: 1.7rem;
+  margin-bottom: 0.25rem;
+}
+
+.applications-header p {
+  color: var(--muted);
+}
+
+.status-badge {
+  margin-left: 0.5rem;
+}
+
+.withdraw-btn {
+  margin-top: 0.4rem;
+  align-self: flex-start;
+}

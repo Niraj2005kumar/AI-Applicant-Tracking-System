@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import "./Auth.css";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -84,19 +85,15 @@ const Register = () => {
   };
 
   return (
-    <div className="register-page">
-      <div className="register-container">
+    <div className="auth-shell">
+      <div className="auth-card">
         <h1>Create Account</h1>
 
         <p>Join the AI Applicant Tracking System</p>
 
-        {error && (
-          <div className="error-message">
-            {error}
-          </div>
-        )}
+        {error && <div className="error-message">{error}</div>}
 
-        <form onSubmit={handleSubmit}>
+        <form className="auth-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Full Name</label>
 
@@ -124,18 +121,9 @@ const Register = () => {
           <div className="form-group">
             <label>Role</label>
 
-            <select
-              name="role"
-              value={role}
-              onChange={handleChange}
-            >
-              <option value="candidate">
-                Candidate
-              </option>
-
-              <option value="recruiter">
-                Recruiter
-              </option>
+            <select name="role" value={role} onChange={handleChange}>
+              <option value="candidate">Candidate</option>
+              <option value="recruiter">Recruiter</option>
             </select>
           </div>
 
@@ -163,21 +151,13 @@ const Register = () => {
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-          >
-            {loading
-              ? "Creating Account..."
-              : "Register"}
+          <button type="submit" disabled={loading}>
+            {loading ? "Creating Account..." : "Register"}
           </button>
         </form>
 
         <p className="auth-footer">
-          Already have an account?{" "}
-          <Link to="/login">
-            Login
-          </Link>
+          Already have an account? <Link to="/login">Login</Link>
         </p>
       </div>
     </div>

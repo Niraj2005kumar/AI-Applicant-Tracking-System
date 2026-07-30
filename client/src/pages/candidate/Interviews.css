@@ -1,0 +1,36 @@
+.interviews-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.interviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 1.35rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.interviews-header h1 {
+  font-size: 1.7rem;
+  margin-bottom: 0.25rem;
+}
+
+.interviews-header p {
+  color: var(--muted);
+}
+
+.meeting-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  background: #eff6ff;
+  color: var(--primary);
+  padding: 0.6rem 0.8rem;
+}

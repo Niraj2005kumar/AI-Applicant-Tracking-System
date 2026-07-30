@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/axios";
+import "./Auth.css";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -39,27 +40,17 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="forgot-password-page">
-      <div className="forgot-password-container">
+    <div className="auth-shell">
+      <div className="auth-card">
         <h1>Forgot Password</h1>
 
-        <p>
-          Enter your registered email to receive a password reset link.
-        </p>
+        <p>Enter your registered email to receive a password reset link.</p>
 
-        {message && (
-          <div className="success-message">
-            {message}
-          </div>
-        )}
+        {message && <div className="success-message">{message}</div>}
 
-        {error && (
-          <div className="error-message">
-            {error}
-          </div>
-        )}
+        {error && <div className="error-message">{error}</div>}
 
-        <form onSubmit={handleSubmit}>
+        <form className="auth-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Email</label>
 
@@ -76,16 +67,12 @@ const ForgotPassword = () => {
           </div>
 
           <button type="submit" disabled={loading}>
-            {loading
-              ? "Sending..."
-              : "Send Reset Link"}
+            {loading ? "Sending..." : "Send Reset Link"}
           </button>
         </form>
 
         <p className="auth-footer">
-          <Link to="/login">
-            Back to Login
-          </Link>
+          <Link to="/login">Back to Login</Link>
         </p>
       </div>
     </div>

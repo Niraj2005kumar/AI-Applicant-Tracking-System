@@ -1,0 +1,11 @@
+.interviews-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.interview-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}

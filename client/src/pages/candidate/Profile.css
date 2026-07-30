@@ -1,0 +1,50 @@
+.candidate-profile {
+  display: flex;
+  justify-content: center;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 960px;
+  padding: 1.4rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.profile-card h1 {
+  font-size: 1.7rem;
+  margin-bottom: 0.5rem;
+}
+
+.profile-message {
+  margin: 0.9rem 0 1rem;
+  padding: 0.8rem 1rem;
+  background: #eff6ff;
+  color: var(--primary-dark);
+  border-radius: 12px;
+  border: 1px solid #bfdbfe;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.save-btn {
+  margin-top: 1rem;
+  min-width: 170px;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

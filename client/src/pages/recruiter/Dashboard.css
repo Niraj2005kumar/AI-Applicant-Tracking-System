@@ -1,0 +1,56 @@
+.recruiter-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recruiter-dashboard .dashboard-header {
+  padding: 1.35rem 1.5rem;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+  border: 1px solid #dbeafe;
+  box-shadow: var(--shadow);
+}
+
+.recruiter-dashboard .dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.recruiter-dashboard .stat-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 1.1rem;
+  box-shadow: var(--shadow);
+}
+
+.recruiter-dashboard .dashboard-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.recruiter-dashboard .dashboard-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 1.1rem;
+  box-shadow: var(--shadow);
+}
+
+.recruiter-dashboard .activity-list li {
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+@media (max-width: 1024px) {
+  .recruiter-dashboard .dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .recruiter-dashboard .dashboard-section {
+    grid-template-columns: 1fr;
+  }
+}
