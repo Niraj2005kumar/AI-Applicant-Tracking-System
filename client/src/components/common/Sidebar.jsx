@@ -37,11 +37,12 @@ const Sidebar = () => {
     { name: "Dashboard", path: "/admin/dashboard" },
     { name: "Users", path: "/admin/users" },
     { name: "Recruiters", path: "/admin/recruiters" },
+    { name: "Candidates", path: "/admin/candidates" },
     { name: "Companies", path: "/admin/companies" },
     { name: "Jobs", path: "/admin/jobs" },
+    { name: "Applications", path: "/admin/applications" },
     { name: "Reports", path: "/admin/reports" },
-    { name: "Notifications", path: "/notifications" },
-    { name: "Settings", path: "/settings" },
+    { name: "Settings", path: "/admin/settings" },
   ];
 
   const getLinks = () => {

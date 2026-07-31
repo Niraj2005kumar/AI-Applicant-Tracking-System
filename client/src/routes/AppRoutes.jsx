@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import ProtectedRoute from "./ProtectedRoute";
 import RoleRoute from "./RoleRoute";
@@ -35,6 +35,14 @@ import RecruiterProfile from "../pages/recruiter/Profile";
 
 // Admin Pages
 import AdminDashboard from "../pages/admin/Dashboard";
+import AdminUsers from "../pages/admin/Users";
+import AdminRecruiters from "../pages/admin/Recruiters";
+import AdminCandidates from "../pages/admin/Candidates";
+import AdminCompanies from "../pages/admin/Companies";
+import AdminJobs from "../pages/admin/Jobs";
+import AdminApplications from "../pages/admin/Applications";
+import AdminReports from "../pages/admin/Reports";
+import AdminSettings from "../pages/admin/Settings";
 
 const AppRoutes = () => {
   return (
@@ -82,6 +90,14 @@ const AppRoutes = () => {
           <Route element={<RoleRoute allowedRoles={["admin"]} />}>
             <Route element={<AdminLayout />}>
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/users" element={<AdminUsers />} />
+              <Route path="/admin/recruiters" element={<AdminRecruiters />} />
+              <Route path="/admin/candidates" element={<AdminCandidates />} />
+              <Route path="/admin/companies" element={<AdminCompanies />} />
+              <Route path="/admin/jobs" element={<AdminJobs />} />
+              <Route path="/admin/applications" element={<AdminApplications />} />
+              <Route path="/admin/reports" element={<AdminReports />} />
+              <Route path="/admin/settings" element={<AdminSettings />} />
             </Route>
           </Route>
         </Route>

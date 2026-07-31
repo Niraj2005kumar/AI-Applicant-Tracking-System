@@ -1,0 +1,61 @@
+.recruiter-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recruiter-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+}
+
+.recruiter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.85rem;
+}
+
+.recruiter-grid .admin-mini-card {
+  min-height: 100%;
+}
+
+.recruiter-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.recruiter-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.recruiter-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.recruiter-meta strong {
+  font-size: 1rem;
+}
+
+.recruiter-meta span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .recruiter-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
