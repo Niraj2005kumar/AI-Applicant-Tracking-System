@@ -137,6 +137,7 @@ const Jobs = () => {
                 >
                   {job.isActive ? "Active" : "Closed"}
                 </span>
+                
               </p>
 
               <div className="job-actions">
