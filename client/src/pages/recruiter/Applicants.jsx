@@ -49,7 +49,7 @@ const Applicants = () => {
 
   const updateStatus = async (applicationId, status) => {
     try {
-      await api.put(`/applications/${applicationId}/status`, {
+      await api.patch(`/applications/${applicationId}/status`, {
         status,
       });
 
@@ -75,7 +75,7 @@ const Applicants = () => {
     switch (status?.toLowerCase()) {
       case "pending":
         return "#f59e0b";
-      case "reviewing":
+      case "reviewed":
         return "#2563eb";
       case "shortlisted":
         return "#16a34a";
@@ -191,14 +191,14 @@ const Applicants = () => {
                   }
                   className="status-dropdown-select"
                 >
-                  <option value="pending">Pending</option>
-                  <option value="reviewing">Reviewing</option>
-                  <option value="shortlisted">Shortlisted</option>
-                  <option value="rejected">Rejected</option>
-                  <option value="hired">Hired</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Reviewed">Reviewed</option>
+                  <option value="Shortlisted">Shortlisted</option>
+                  <option value="Rejected">Rejected</option>
+                  <option value="Hired">Hired</option>
                 </select>
 
-                {applicant.status === "shortlisted" && (
+                {applicant.status?.toLowerCase() === "shortlisted" && (
                   <button
                     onClick={() => setSchedulingApplication(applicant)}
                     className="schedule-btn-applicants"

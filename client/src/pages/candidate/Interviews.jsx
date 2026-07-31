@@ -42,7 +42,7 @@ const Interviews = () => {
         item.company?.name
           ?.toLowerCase()
           .includes(keyword.toLowerCase()) ||
-        item.interviewer
+        item.recruiter?.name
           ?.toLowerCase()
           .includes(keyword.toLowerCase())
       );
@@ -62,7 +62,7 @@ const Interviews = () => {
       case "cancelled":
         return "#dc2626";
 
-      case "pending":
+      case "rescheduled":
         return "#f59e0b";
 
       default:
@@ -106,20 +106,25 @@ const Interviews = () => {
               </p>
 
               <p>
-                <strong>Interviewer:</strong>{" "}
-                {item.interviewer}
+                <strong>Recruiter:</strong>{" "}
+                {item.recruiter?.name || "N/A"}
               </p>
 
               <p>
                 <strong>Date:</strong>{" "}
                 {new Date(
-                  item.date
+                  item.interviewDate
                 ).toLocaleDateString()}
               </p>
 
               <p>
                 <strong>Time:</strong>{" "}
-                {item.time}
+                {item.interviewTime}
+              </p>
+
+              <p>
+                <strong>Mode:</strong>{" "}
+                {item.mode || "Online"}
               </p>
 
               <p>
@@ -137,7 +142,7 @@ const Interviews = () => {
                 </span>
               </p>
 
-              {item.meetingLink && (
+              {item.mode === "Online" && item.meetingLink && (
                 <a
                   href={item.meetingLink}
                   target="_blank"
@@ -146,6 +151,13 @@ const Interviews = () => {
                 >
                   Join Meeting
                 </a>
+              )}
+
+              {item.mode === "Offline" && item.location && (
+                <p>
+                  <strong>Location:</strong>{" "}
+                  {item.location}
+                </p>
               )}
             </div>
           ))}

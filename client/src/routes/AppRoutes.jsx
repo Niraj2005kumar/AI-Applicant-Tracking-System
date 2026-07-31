@@ -34,6 +34,7 @@ import RecruiterNotifications from "../pages/recruiter/Notifications";
 import RecruiterProfile from "../pages/recruiter/Profile";
 
 // Admin Pages
+import AdminLogin from "../pages/admin/AdminLogin";
 import AdminDashboard from "../pages/admin/Dashboard";
 import AdminUsers from "../pages/admin/Users";
 import AdminRecruiters from "../pages/admin/Recruiters";
@@ -52,6 +53,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>

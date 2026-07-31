@@ -45,7 +45,7 @@ const Notifications = () => {
 
   const markAsRead = async (id) => {
     try {
-      await api.put(`/notifications/${id}/read`);
+      await api.patch(`/notifications/${id}/read`);
 
       const updated = notifications.map((item) =>
         item._id === id

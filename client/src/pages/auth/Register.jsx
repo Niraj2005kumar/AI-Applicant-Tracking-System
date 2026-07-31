@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./Auth.css";
@@ -14,6 +14,11 @@ const Register = () => {
     confirmPassword: "",
     role: "candidate",
   });
+
+  useEffect(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  }, []);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

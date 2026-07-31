@@ -26,18 +26,15 @@ const Dashboard = () => {
         setLoading(true);
         setError("");
 
-        const [statsRes, usersRes, jobsRes] = await Promise.all([
+        const [statsRes, usersRes, jobsRes, appsRes] = await Promise.all([
           api.get("/admin/stats"),
           api.get("/admin/users"),
           api.get("/admin/jobs"),
+          api.get("/admin/applications"),
         ]);
 
         if (statsRes.data.success && statsRes.data.stats) {
-          setStats({
-            ...statsRes.data.stats,
-            totalCandidates: statsRes.data.stats.totalUsers || 0,
-            totalInterviews: 0,
-          });
+          setStats(statsRes.data.stats);
         }
 
         if (usersRes.data.success) {
@@ -45,17 +42,11 @@ const Dashboard = () => {
         }
 
         if (jobsRes.data.success) {
-          const jobList = jobsRes.data.jobs || [];
-          setJobs(jobList);
+          setJobs(jobsRes.data.jobs || []);
+        }
 
-          if (jobList.length > 0) {
-            const appRequests = jobList.slice(0, 5).map((job) => api.get(`/api/applications/job/${job._id}`));
-            const appResponses = await Promise.all(appRequests);
-            const recentApps = appResponses.flatMap((response) => response.data.applications || []);
-            setApplications(recentApps.slice(0, 8));
-          } else {
-            setApplications([]);
-          }
+        if (appsRes.data.success) {
+          setApplications(appsRes.data.applications || []);
         }
       } catch (err) {
         console.error(err);

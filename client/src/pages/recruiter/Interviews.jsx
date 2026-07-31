@@ -42,7 +42,7 @@ const Interviews = () => {
         item.job?.title
           ?.toLowerCase()
           .includes(keyword.toLowerCase()) ||
-        item.interviewer
+        item.recruiter?.name
           ?.toLowerCase()
           .includes(keyword.toLowerCase())
       );
@@ -83,7 +83,7 @@ const Interviews = () => {
         return "#16a34a";
       case "cancelled":
         return "#dc2626";
-      case "pending":
+      case "rescheduled":
         return "#f59e0b";
       default:
         return "#6b7280";
@@ -127,20 +127,20 @@ const Interviews = () => {
               </p>
 
               <p>
-                <strong>Interviewer:</strong>{" "}
-                {item.interviewer}
+                <strong>Mode:</strong>{" "}
+                {item.mode || "Online"}
               </p>
 
               <p>
                 <strong>Date:</strong>{" "}
                 {new Date(
-                  item.date
+                  item.interviewDate
                 ).toLocaleDateString()}
               </p>
 
               <p>
                 <strong>Time:</strong>{" "}
-                {item.time}
+                {item.interviewTime}
               </p>
 
               <p>
@@ -158,7 +158,7 @@ const Interviews = () => {
                 </span>
               </p>
 
-              {item.meetingLink && (
+              {item.mode === "Online" && item.meetingLink && (
                 <a
                   href={item.meetingLink}
                   target="_blank"
@@ -167,6 +167,13 @@ const Interviews = () => {
                 >
                   Open Meeting
                 </a>
+              )}
+
+              {item.mode === "Offline" && item.location && (
+                <p>
+                  <strong>Location:</strong>{" "}
+                  {item.location}
+                </p>
               )}
 
               <select
@@ -178,20 +185,20 @@ const Interviews = () => {
                   )
                 }
               >
-                <option value="pending">
-                  Pending
-                </option>
-
-                <option value="scheduled">
+                <option value="Scheduled">
                   Scheduled
                 </option>
 
-                <option value="completed">
+                <option value="Completed">
                   Completed
                 </option>
 
-                <option value="cancelled">
+                <option value="Cancelled">
                   Cancelled
+                </option>
+
+                <option value="Rescheduled">
+                  Rescheduled
                 </option>
               </select>
             </div>

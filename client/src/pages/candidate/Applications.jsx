@@ -78,11 +78,11 @@ const Applications = () => {
   };
 
   const getStatusColor = (status) => {
-    switch (status) {
+    switch (status?.toLowerCase()) {
       case "pending":
         return "#f59e0b";
 
-      case "reviewing":
+      case "reviewed":
         return "#2563eb";
 
       case "shortlisted":

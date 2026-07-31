@@ -38,6 +38,18 @@
   color: var(--muted);
 }
 
+.settings-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.settings-hint {
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-top: 4px;
+}
+
 @media (max-width: 640px) {
   .settings-item {
     flex-direction: column;

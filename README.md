@@ -121,6 +121,29 @@ npm run dev
 
 ---
 
+## 🔐 Admin Access
+
+### Admin Login URL
+```
+http://localhost:5173/admin/login
+```
+
+### Default Admin Credentials (created via seed script)
+```
+Email:    admin@aiats.com
+Password: Admin@12345
+```
+
+> ⚠️ Change the admin password after first login from **Settings → Password & Security**.
+
+### Create / Reset Admin Account
+```bash
+cd server
+node scripts/createAdmin.js
+```
+
+---
+
 ## 👨‍💻 Developer
 
 **Niraj Verma**

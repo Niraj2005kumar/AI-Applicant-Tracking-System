@@ -132,11 +132,10 @@ const Jobs = () => {
 
                 <span
                   className={`status ${
-                    job.status?.toLowerCase() ||
-                    "active"
+                    job.isActive ? "active" : "closed"
                   }`}
                 >
-                  {job.status || "Active"}
+                  {job.isActive ? "Active" : "Closed"}
                 </span>
               </p>
 
