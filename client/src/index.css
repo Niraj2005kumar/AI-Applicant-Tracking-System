@@ -461,9 +461,7 @@ input:focus, textarea:focus, select:focus {
   border: 1px solid #bfdbfe;
 }
 
-/* ============================================================
-   TABLES
-   ============================================================ */
+
 .table-responsive {
   width: 100%;
   overflow-x: auto;
