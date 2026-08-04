@@ -10,6 +10,7 @@ const Applicants = () => {
   const [filteredApplicants, setFilteredApplicants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [schedulingApplication, setSchedulingApplication] = useState(null);
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/api$/, "") || "http://localhost:5000";
 
   useEffect(() => {
     fetchApplicants();
@@ -184,7 +185,7 @@ const Applicants = () => {
               <div className="card-actions-wrapper">
                 {applicant.resume && (
                   <a
-                    href={`http://localhost:5000${applicant.resume}`}
+                    href={`${apiBaseUrl}${applicant.resume}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="view-resume-btn-link"

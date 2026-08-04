@@ -10,6 +10,7 @@ const Resume = () => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/api$/, "") || "http://localhost:5000";
   
   // Parsed details from resume (fetched from profile or mock matching)
   const [profileDetails, setProfileDetails] = useState({
@@ -190,7 +191,7 @@ const Resume = () => {
           {resumePath && (
             <div className="resume-actions-zone">
               <a
-                href={`http://localhost:5000${resumePath}`}
+                href={`${apiBaseUrl}${resumePath}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="view-resume-link"
