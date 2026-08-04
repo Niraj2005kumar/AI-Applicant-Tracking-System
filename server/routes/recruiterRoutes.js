@@ -181,7 +181,8 @@ router.get(
         resume: app.resume || app.candidate?.resume || "",
         atsScore: app.atsScore || 0,
         matchPercentage: app.matchPercentage || 0,
-        recommendation: app.recommendation || "Neutral"
+        recommendation: app.recommendation || "Neutral",
+        missingSkills: app.missingSkills || []
       }));
 
       res.status(200).json({ success: true, applicants: list });

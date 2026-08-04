@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
-import { useAuth } from "../../context/AuthContext";
 import Loader from "../../components/common/Loader";
 import "./Resume.css";
 
@@ -17,9 +16,16 @@ const Resume = () => {
   // Parsed details from resume (fetched from profile or mock matching)
   const [profileDetails, setProfileDetails] = useState({
     skills: [],
-    experience: 0,
-    education: "",
+    experience: { years: 0 },
+    education: [],
+    projects: [],
+    certifications: [],
+    jobTitles: [],
     location: "",
+    atsScore: 0,
+    matchPercentage: 0,
+    recommendation: "Neutral",
+    missingSkills: [],
   });
 
   const fetchProfileResume = async () => {
@@ -27,12 +33,34 @@ const Resume = () => {
       const { data } = await api.get("/auth/profile");
       if (data.success && data.user) {
         setResumePath(data.user.resume || "");
-        setProfileDetails({
+        setProfileDetails((prev) => ({
+          ...prev,
           skills: data.user.skills || [],
-          experience: data.user.experience || 0,
-          education: data.user.education || "",
+          experience: { years: data.user.experience || 0 },
+          education: data.user.education ? [data.user.education] : [],
           location: data.user.location || "",
-        });
+        }));
+
+        // Only parse resume if one exists
+        if (data.user.resume) {
+          try {
+            const analysisResponse = await api.get("/users/parse-resume");
+            if (analysisResponse.data?.success) {
+              const parsed = analysisResponse.data.parsedResume || {};
+              setProfileDetails((prev) => ({
+                ...prev,
+                skills: parsed.skills || prev.skills || [],
+                experience: parsed.experience || { years: 0 },
+                education: parsed.education || [],
+                projects: parsed.projects || [],
+                certifications: parsed.certifications || [],
+                jobTitles: parsed.jobTitles || [],
+              }));
+            }
+          } catch (parseErr) {
+            console.warn("Resume parsing not available:", parseErr);
+          }
+        }
       }
     } catch (err) {
       console.error(err);
@@ -102,9 +130,16 @@ const Resume = () => {
         setResumePath("");
         setProfileDetails({
           skills: [],
-          experience: 0,
-          education: "",
+          experience: { years: 0 },
+          education: [],
+          projects: [],
+          certifications: [],
+          jobTitles: [],
           location: "",
+          atsScore: 0,
+          matchPercentage: 0,
+          recommendation: "Neutral",
+          missingSkills: [],
         });
       }
     } catch (err) {
@@ -194,12 +229,12 @@ const Resume = () => {
               <div className="parsed-row-group">
                 <div className="parsed-item">
                   <strong>Years of Experience:</strong>
-                  <span className="val-text">{profileDetails.experience} Years</span>
+                  <span className="val-text">{profileDetails.experience?.years || 0} Years</span>
                 </div>
 
                 <div className="parsed-item">
                   <strong>Highest Education:</strong>
-                  <span className="val-text">{profileDetails.education || "Bachelor's Degree"}</span>
+                  <span className="val-text">{profileDetails.education?.[0] || "Not specified"}</span>
                 </div>
               </div>
 
@@ -207,6 +242,67 @@ const Resume = () => {
                 <strong>Extracted Location:</strong>
                 <span className="val-text">{profileDetails.location || "Not specified"}</span>
               </div>
+
+              {profileDetails.jobTitles?.length > 0 && (
+                <div className="parsed-item">
+                  <strong>Job Titles:</strong>
+                  <div className="skills-badge-container">
+                    {profileDetails.jobTitles.map((title, index) => (
+                      <span key={index} className="skill-badge">{title}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {profileDetails.projects?.length > 0 && (
+                <div className="parsed-item">
+                  <strong>Projects:</strong>
+                  <div className="skills-badge-container">
+                    {profileDetails.projects.map((project, index) => (
+                      <span key={index} className="skill-badge">{project}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {profileDetails.certifications?.length > 0 && (
+                <div className="parsed-item">
+                  <strong>Certifications:</strong>
+                  <div className="skills-badge-container">
+                    {profileDetails.certifications.map((cert, index) => (
+                      <span key={index} className="skill-badge">{cert}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="parsed-row-group">
+                <div className="parsed-item">
+                  <strong>ATS Score:</strong>
+                  <span className="val-text">{profileDetails.atsScore || 0}%</span>
+                </div>
+
+                <div className="parsed-item">
+                  <strong>Match %:</strong>
+                  <span className="val-text">{profileDetails.matchPercentage || 0}%</span>
+                </div>
+              </div>
+
+              <div className="parsed-item">
+                <strong>Recommendation:</strong>
+                <span className="val-text">{profileDetails.recommendation || "Neutral"}</span>
+              </div>
+
+              {profileDetails.missingSkills?.length > 0 && (
+                <div className="parsed-item">
+                  <strong>Missing Skills:</strong>
+                  <div className="skills-badge-container">
+                    {profileDetails.missingSkills.map((skill, index) => (
+                      <span key={index} className="skill-badge">{skill}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className="ats-recommendation-box">
                 <span className="star-icon">✨</span>

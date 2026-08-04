@@ -3,7 +3,8 @@ import Application from "../models/Application.js";
 import Job from "../models/Job.js";
 import User from "../models/User.js";
 import { createNotification } from "./notificationController.js";
-import { extractTextFromPDF, parseResumeText, matchResumeWithJob } from "../services/aiService.js";
+import { parseResumeForCandidate } from "../services/resumeParserService.js";
+import { buildAtsAnalysis } from "../services/atsScoringService.js";
 
 // Apply for a Job
 export const applyForJob = async (req, res) => {
@@ -56,7 +57,7 @@ export const applyForJob = async (req, res) => {
     let parsedResume = {
       skills: [],
       experience: 1,
-      education: "Not Specified",
+      education: "Bachelor's Degree",
       certifications: [],
       projects: [],
       keywords: []
@@ -67,27 +68,28 @@ export const applyForJob = async (req, res) => {
       skillMatch: 50,
       experienceMatch: 50,
       recommendation: "Neutral",
+      missingSkills: [],
       keywords: []
     };
 
     try {
-      if (resumePath.toLowerCase().endsWith(".pdf")) {
-        resumeText = await extractTextFromPDF(resumePath);
-        parsedResume = parseResumeText(resumeText);
-        matchScores = matchResumeWithJob(parsedResume, job);
-      } else {
-        // Fallback using candidates database profile details
-        const user = await User.findById(req.user._id);
-        parsedResume = {
-          skills: user.skills || [],
-          experience: user.experience || 1,
-          education: user.education || "Bachelor's Degree",
-          certifications: [],
-          projects: [],
-          keywords: []
-        };
-        matchScores = matchResumeWithJob(parsedResume, job);
-      }
+      const user = await User.findById(req.user._id);
+      const analysis = await parseResumeForCandidate({
+        resumePath,
+        userProfile: user,
+      });
+
+      resumeText = analysis.resumeText;
+      parsedResume = analysis.parsedResume;
+      matchScores = buildAtsAnalysis({
+        candidateProfile: {
+          skills: analysis.parsedResume.skills,
+          experience: analysis.parsedResume.experience,
+          education: analysis.parsedResume.education,
+          keywords: analysis.parsedResume.keywords,
+        },
+        job,
+      });
     } catch (parseErr) {
       console.error("AI Parsing failed during application:", parseErr);
     }
@@ -112,6 +114,7 @@ export const applyForJob = async (req, res) => {
         skillMatch: matchScores.skillMatch,
         experienceMatch: matchScores.experienceMatch,
         recommendation: matchScores.recommendation,
+        missingSkills: matchScores.missingSkills,
       });
     } catch (dbError) {
       if (dbError.code === 11000) {

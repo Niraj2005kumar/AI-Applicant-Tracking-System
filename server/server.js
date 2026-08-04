@@ -18,6 +18,7 @@ import interviewRoutes from "./routes/interviewRoutes.js";
 import recruiterRoutes from "./routes/recruiterRoutes.js";
 import candidateRoutes from "./routes/candidateRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import atsRoutes from "./routes/atsRoutes.js";
 
 dotenv.config();
 
@@ -47,6 +48,7 @@ app.use("/api/bookmarks", bookmarkRoutes);
 app.use("/api/recruiter", recruiterRoutes);
 app.use("/api/candidate", candidateRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/ats", atsRoutes);
 
 // Health Check Route
 app.get("/", (req, res) => {

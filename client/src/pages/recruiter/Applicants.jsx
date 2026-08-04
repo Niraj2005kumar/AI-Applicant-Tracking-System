@@ -144,6 +144,16 @@ const Applicants = () => {
                     {applicant.recommendation || "Neutral"}
                   </span>
                 </p>
+
+                <p>
+                  <strong>Match %:</strong> {applicant.matchPercentage || 0}%
+                </p>
+
+                {applicant.missingSkills?.length > 0 && (
+                  <p>
+                    <strong>Missing Skills:</strong> {applicant.missingSkills.join(", ")}
+                  </p>
+                )}
                 
                 {/* Match Score Meter */}
                 <div className="ats-score-meter-container">

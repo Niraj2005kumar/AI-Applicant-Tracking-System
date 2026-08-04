@@ -100,6 +100,11 @@ const applicationSchema = new mongoose.Schema(
       default: "Neutral",
     },
 
+    missingSkills: {
+      type: [String],
+      default: [],
+    },
+
     appliedAt: {
       type: Date,
       default: Date.now,

@@ -2,6 +2,8 @@ import express from "express";
 import {
   uploadResume,
   getUserProfile,
+  extractResumeTextController,
+  parseResumeController,
   deleteResume,
 } from "../controllers/userController.js";
 
@@ -25,6 +27,22 @@ router.put(
   authorizeRoles("candidate"),
   upload.single("resume"),
   uploadResume
+);
+
+// Extract Resume Text (Candidate Only)
+router.get(
+  "/extract-resume-text",
+  authMiddleware,
+  authorizeRoles("candidate"),
+  extractResumeTextController
+);
+
+// Parse Resume Text (Candidate Only)
+router.get(
+  "/parse-resume",
+  authMiddleware,
+  authorizeRoles("candidate"),
+  parseResumeController
 );
 
 // Delete Resume (Candidate Only)

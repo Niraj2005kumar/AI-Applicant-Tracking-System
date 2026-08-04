@@ -162,6 +162,20 @@ const Applications = () => {
                 </span>
               </p>
 
+              <p>
+                <strong>ATS Score:</strong> {application.atsScore || 0}%
+              </p>
+
+              <p>
+                <strong>Match %:</strong> {application.matchPercentage || 0}%
+              </p>
+
+              {application.missingSkills?.length > 0 && (
+                <p>
+                  <strong>Missing Skills:</strong> {application.missingSkills.join(", ")}
+                </p>
+              )}
+
               <button
                 className="withdraw-btn"
                 onClick={() =>
