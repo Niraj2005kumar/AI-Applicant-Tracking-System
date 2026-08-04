@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  animation: fadeSlideUp 0.5s ease both;
 }
 
 .admin-toolbar {
@@ -26,14 +27,20 @@
 
 .admin-filter-group select {
   min-width: 150px;
+  border-radius: var(--radius-pill);
 }
 
 .admin-card {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
   padding: 1.25rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.admin-card:hover {
+  box-shadow: var(--shadow-lg);
 }
 
 .admin-stat-row {
@@ -43,15 +50,22 @@
 }
 
 .admin-mini-card {
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
   padding: 1rem;
   background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+  transition: all 0.25s ease;
+}
+
+.admin-mini-card:hover {
+  transform: translateY(-2px);
+  border-color: #c7d2fe;
 }
 
 .admin-mini-card h3 {
   font-size: 1.2rem;
   margin-bottom: 0.2rem;
+  color: var(--navy);
 }
 
 .admin-mini-card p {
@@ -71,8 +85,8 @@
 
 .admin-table th,
 .admin-table td {
-  padding: 0.8rem 0.75rem;
-  border-bottom: 1px solid var(--border);
+  padding: 0.85rem 0.75rem;
+  border-bottom: 1px solid var(--border-soft);
   text-align: left;
 }
 
@@ -80,30 +94,44 @@
   color: var(--muted);
   font-size: 0.78rem;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: var(--surface-2);
+}
+
+.admin-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.admin-table tbody tr:hover {
+  background: var(--surface-2);
+}
+
+.admin-table td {
+  color: var(--text);
 }
 
 .admin-badge {
   display: inline-flex;
   align-items: center;
-  border-radius: 999px;
-  padding: 0.32rem 0.65rem;
+  border-radius: var(--radius-pill);
+  padding: 0.32rem 0.7rem;
   font-size: 0.78rem;
   font-weight: 700;
   text-transform: capitalize;
 }
 
 .admin-badge.candidate {
-  background: #eff6ff;
+  background: var(--info-light);
   color: var(--primary);
 }
 
 .admin-badge.recruiter {
-  background: #f0fdf4;
+  background: var(--success-light);
   color: var(--success);
 }
 
 .admin-badge.admin {
-  background: #fef2f2;
+  background: var(--danger-light);
   color: var(--danger);
 }
 
@@ -125,12 +153,19 @@
 
 .admin-action-btn {
   border: none;
-  border-radius: 999px;
-  padding: 0.45rem 0.8rem;
+  border-radius: var(--radius-pill);
+  padding: 0.45rem 0.85rem;
   font-size: 0.8rem;
   font-weight: 600;
   background: var(--surface-2);
-  color: var(--text);
+  color: var(--text-soft);
+  transition: all 0.2s ease;
+}
+
+.admin-action-btn:hover:not(:disabled) {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-1px);
 }
 
 .admin-action-btn.delete {
@@ -138,8 +173,14 @@
   color: var(--danger);
 }
 
-.admin-action-btn:hover {
-  transform: translateY(-1px);
+.admin-action-btn.delete:hover:not(:disabled) {
+  background: var(--danger);
+  color: white;
+}
+
+.admin-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .admin-empty {
@@ -155,6 +196,10 @@
 
 .admin-modal-list p {
   color: var(--muted);
+}
+
+.admin-modal-list strong {
+  color: var(--navy);
 }
 
 @media (max-width: 640px) {

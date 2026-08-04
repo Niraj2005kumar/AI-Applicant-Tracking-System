@@ -6,25 +6,32 @@
 .profile-card {
   width: 100%;
   max-width: 960px;
-  padding: 1.4rem;
-  border-radius: var(--radius);
+  padding: 1.6rem;
+  border-radius: var(--radius-lg);
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-soft);
   box-shadow: var(--shadow);
+  animation: fadeSlideUp 0.5s ease both;
 }
 
 .profile-card h1 {
   font-size: 1.7rem;
+  font-weight: 800;
   margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--navy), #312e81);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .profile-message {
   margin: 0.9rem 0 1rem;
   padding: 0.8rem 1rem;
-  background: #eff6ff;
-  color: var(--primary-dark);
-  border-radius: 12px;
+  background: var(--info-light);
+  color: #1d4ed8;
+  border-radius: var(--radius-sm);
   border: 1px solid #bfdbfe;
+  animation: fadeSlideUp 0.35s ease both;
 }
 
 .form-grid {

@@ -62,8 +62,13 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-shell">
+<div className="auth-shell">
+      <div className="auth-grid" />
       <div className="auth-card">
+        <div className="auth-brand">
+          <div className="auth-brand-mark">AI</div>
+          <span>AI ATS</span>
+        </div>
         <h1>Welcome Back</h1>
         <p>Sign in to your AI ATS workspace</p>
 

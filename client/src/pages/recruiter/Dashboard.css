@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  animation: fadeSlideUp 0.5s ease both;
 }
 
 .dashboard-header {
@@ -10,13 +11,35 @@
   justify-content: space-between;
   align-items: center;
   gap: 1.5rem;
+  padding: 1.4rem 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--grad-surface);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.1), transparent 70%);
+  pointer-events: none;
 }
 
 .dashboard-header h1 {
   font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--text);
+  font-weight: 800;
+  color: var(--navy);
   margin-bottom: 0.25rem;
+  background: linear-gradient(135deg, var(--navy), #312e81);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .dashboard-header p {
@@ -33,24 +56,31 @@
 
 .metric-card {
   background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-soft);
   padding: 1.75rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  transition: all 0.2s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  animation: fadeSlideUp 0.5s ease both;
 }
 
 .metric-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: #c7d2fe;
 }
 
 .metric-card h3 {
   font-size: 2.2rem;
   font-weight: 800;
-  color: var(--text);
+  color: var(--navy);
   line-height: 1;
+  background: linear-gradient(135deg, var(--navy), var(--primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .metric-card p {
@@ -75,16 +105,21 @@
 
 .panel-card {
   background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow);
   padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.panel-card:hover {
+  box-shadow: var(--shadow-lg);
 }
 
 .panel-card h3 {
   font-size: 1.2rem;
   font-weight: 700;
-  color: var(--text);
+  color: var(--navy);
   margin-bottom: 0.25rem;
 }
 
@@ -149,14 +184,20 @@
   align-items: center;
   padding: 0.75rem 1rem;
   background: var(--surface-2);
-  border-radius: 10px;
-  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-soft);
+  transition: all 0.25s ease;
+}
+
+.recent-job-item:hover {
+  border-color: #c7d2fe;
+  background: var(--surface-3);
 }
 
 .job-info h4 {
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text);
+  color: var(--navy);
   margin-bottom: 0.15rem;
 }
 
@@ -169,16 +210,16 @@
   font-size: 0.75rem;
   font-weight: 700;
   padding: 0.2rem 0.5rem;
-  border-radius: 6px;
+  border-radius: var(--radius-pill);
 }
 
 .status-badge.active {
-  background: #f0fdf4;
+  background: var(--success-light);
   color: var(--success);
 }
 
 .status-badge.inactive {
-  background: #fef2f2;
+  background: var(--danger-light);
   color: var(--danger);
 }
 
@@ -223,13 +264,13 @@
   font-weight: 700;
   color: var(--muted);
   text-transform: uppercase;
-  border-bottom: 2px solid var(--border);
+  border-bottom: 2px solid var(--border-soft);
 }
 
 .stats-table td {
   padding: 1rem;
   font-size: 0.9rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-soft);
   color: var(--text);
 }
 
@@ -244,10 +285,10 @@
   font-weight: 700;
 }
 
-.count-badge.blue { background: #eff6ff; color: var(--primary); }
-.count-badge.yellow { background: #fffbeb; color: var(--warning); }
-.count-badge.green { background: #f0fdf4; color: var(--success); }
-.count-badge.red { background: #fef2f2; color: var(--danger); }
+.count-badge.blue { background: var(--info-light); color: var(--primary); }
+.count-badge.yellow { background: var(--warning-light); color: var(--warning); }
+.count-badge.green { background: var(--success-light); color: var(--success); }
+.count-badge.red { background: var(--danger-light); color: var(--danger); }
 
 @media (max-width: 768px) {
   .dashboard-grid {

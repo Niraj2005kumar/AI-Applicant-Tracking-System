@@ -1,7 +1,7 @@
 .interviews-page {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.1rem;
 }
 
 .interviews-header {
@@ -9,16 +9,35 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 1rem;
-  padding: 1.25rem 1.35rem;
-  border-radius: var(--radius);
-  background: var(--surface);
-  border: 1px solid var(--border);
+  padding: 1.4rem 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--grad-surface);
+  border: 1px solid var(--border-soft);
   box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  animation: fadeSlideUp 0.5s ease both;
+}
+
+.interviews-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.12), transparent 70%);
+  pointer-events: none;
 }
 
 .interviews-header h1 {
   font-size: 1.7rem;
+  font-weight: 800;
   margin-bottom: 0.25rem;
+  background: linear-gradient(135deg, var(--navy), #312e81);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .interviews-header p {
@@ -30,7 +49,56 @@
   align-items: center;
   justify-content: center;
   width: fit-content;
-  background: #eff6ff;
-  color: var(--primary);
-  padding: 0.6rem 0.8rem;
+  background: var(--grad-primary);
+  color: #fff;
+  padding: 0.65rem 1.1rem;
+  box-shadow: var(--shadow-primary);
+}
+
+.interview-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.interview-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--grad-cyan);
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.interview-card:hover::before {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.interview-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: #a5f3fc;
+}
+
+.interview-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.interview-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.interview-meta strong {
+  color: var(--text-soft);
 }

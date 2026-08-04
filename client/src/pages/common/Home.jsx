@@ -59,11 +59,22 @@ const Home = () => {
     },
   ];
 
-  const timeline = [
+const timeline = [
     { step: "01", title: "Create a role", text: "Post openings and sync them into a focused hiring pipeline." },
     { step: "02", title: "Engage talent", text: "Let AI rank applications and surface the strongest matches instantly." },
     { step: "03", title: "Coordinate interviews", text: "Schedule interviews and keep stakeholders aligned in one place." },
     { step: "04", title: "Hire faster", text: "Move from first conversation to offer with clear momentum and insight." },
+  ];
+
+  const workflow = [
+    { icon: "📮", title: "Company Posts Job", text: "Recruiters publish roles into a focused hiring pipeline." },
+    { icon: "🙋", title: "Candidate Applies", text: "Candidates submit tailored applications in a few clicks." },
+    { icon: "📄", title: "Resume + AI Analysis", text: "AI parses resumes and extracts skills, experience and education." },
+    { icon: "🎯", title: "ATS Score & Ranking", text: "Candidates are scored and ranked against every job requirement." },
+    { icon: "✅", title: "Recruiter Selects Best", text: "Recruiters shortlist the strongest matches with confidence." },
+    { icon: "🤝", title: "Schedule Interviews", text: "Move selected candidates into interviews effortlessly." },
+    { icon: "🏆", title: "Hire & Onboard", text: "Close great hires faster with a smooth, transparent flow." },
+    { icon: "🚀", title: "Build Your Team", text: "Scale your workforce with AI-accelerated recruiting." },
   ];
 
   return (
@@ -90,8 +101,12 @@ const Home = () => {
 
         <section className="home-hero">
           <div className="home-hero-card">
-            <div className="home-eyebrow">⚡ AI-powered recruitment OS</div>
-            <h1>Hire faster with a premium applicant tracking experience.</h1>
+<div className="home-eyebrow">⚡ AI-powered recruitment OS</div>
+            <h1>
+              Hire faster with a{" "}
+              <span className="home-gradient-text">premium applicant tracking</span>{" "}
+              experience.
+            </h1>
             <p>
               Unify sourcing, screening, interviews, and candidate communication in one beautiful workspace designed for modern teams.
             </p>
@@ -189,12 +204,31 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="timeline">
+<div className="timeline">
             {timeline.map((item) => (
               <div className="timeline-card" key={item.step}>
                 <div className="timeline-number">{item.step}</div>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="section workflow-section" id="workflow">
+          <div className="section-header">
+            <div>
+              <h2>AI-Powered Recruitment Workflow</h2>
+              <p>From job posting to hire — every step is powered by intelligent automation.</p>
+            </div>
+          </div>
+
+          <div className="workflow-grid">
+            {workflow.map((step) => (
+              <div className="workflow-step" key={step.title}>
+                <div className="workflow-icon">{step.icon}</div>
+                <h4>{step.title}</h4>
+                <p>{step.text}</p>
               </div>
             ))}
           </div>

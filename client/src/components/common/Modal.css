@@ -2,36 +2,101 @@
   position: fixed;
   inset: 0;
   background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   display: grid;
   place-items: center;
   padding: 1rem;
   z-index: 1000;
+  animation: modalOverlayIn 0.25s ease both;
 }
 
 .modal-container {
   width: min(560px, 100%);
   background: var(--surface);
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-lg);
   overflow: hidden;
+  animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.modal-header,
-.modal-footer {
+.modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.2rem;
+  padding: 1.2rem 1.4rem;
+  border-bottom: 1px solid var(--border-soft);
+  background: linear-gradient(135deg, var(--surface-3), var(--surface));
 }
 
-.modal-body {
-  padding: 0 1.2rem 1rem;
+.modal-header h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--navy);
 }
 
 .modal-close {
-  background: transparent;
+  background: var(--surface-2);
   border: none;
-  font-size: 1.4rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  line-height: 1;
   color: var(--muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: var(--danger-light);
+  color: var(--danger);
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  padding: 1.4rem;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.4rem;
+  border-top: 1px solid var(--border-soft);
+  background: var(--surface-2);
+}
+
+@keyframes modalOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .modal-container {
+    max-height: 92vh;
+  }
+
+  .modal-body {
+    padding: 1.1rem;
+  }
 }

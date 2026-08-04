@@ -40,8 +40,13 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="auth-shell">
+<div className="auth-shell">
+      <div className="auth-grid" />
       <div className="auth-card">
+        <div className="auth-brand">
+          <div className="auth-brand-mark">AI</div>
+          <span>AI ATS</span>
+        </div>
         <h1>Forgot Password</h1>
 
         <p>Enter your registered email to receive a password reset link.</p>

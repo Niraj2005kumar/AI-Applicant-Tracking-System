@@ -11,10 +11,30 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  const openMobileMenu = () => {
+    window.dispatchEvent(new CustomEvent("ats:opensidebar"));
+  };
+
   return (
     <nav className="navbar">
-      <div className="navbar-logo">
-        <Link to="/">AI ATS</Link>
+      <div className="navbar-left">
+        <button
+          type="button"
+          className="navbar-toggle"
+          onClick={openMobileMenu}
+          aria-label="Open navigation menu"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+
+        <div className="navbar-logo">
+          <div className="navbar-logo-mark">AI</div>
+          <Link to="/">AI ATS</Link>
+        </div>
       </div>
 
       <div className="navbar-links">

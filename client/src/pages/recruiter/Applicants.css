@@ -5,6 +5,46 @@
   gap: 1.5rem;
 }
 
+.applicants-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.4rem 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--grad-surface);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  animation: fadeSlideUp 0.5s ease both;
+}
+
+.applicants-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(7, 89, 133, 0.12), transparent 70%);
+  pointer-events: none;
+}
+
+.applicants-header h1 {
+  font-size: 1.7rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--navy), #312e81);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.25rem;
+}
+
+.applicants-header p {
+  color: var(--muted);
+}
+
 .applicants-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -13,20 +53,42 @@
 
 .applicant-card {
   background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-soft);
   box-shadow: var(--shadow);
   padding: 1.75rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  transition: all 0.2s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
   position: relative;
+  overflow: hidden;
+  animation: fadeSlideUp 0.5s ease both;
+}
+
+.applicant-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--grad-cyan);
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .applicant-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--primary);
+  transform: translateY(-4px);
+  border-color: #a5f3fc;
+  box-shadow: var(--shadow-lg);
+}
+
+.applicant-card:hover::before {
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 .applicant-card-header {
@@ -34,14 +96,14 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 1rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-soft);
   padding-bottom: 1rem;
 }
 
 .applicant-card-header h2 {
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--text);
+  color: var(--navy);
   margin-bottom: 0.15rem;
 }
 
@@ -52,8 +114,8 @@
 }
 
 .ai-score-badge {
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border: 1px solid rgba(37, 99, 235, 0.15);
+  background: linear-gradient(135deg, var(--ai-light) 0%, var(--surface-3) 100%);
+  border: 1px solid rgba(124, 58, 237, 0.15);
   border-radius: 12px;
   padding: 0.5rem 0.75rem;
   display: flex;
@@ -66,7 +128,7 @@
 .score-val {
   font-size: 1.1rem;
   font-weight: 800;
-  color: var(--primary);
+  color: var(--ai);
   line-height: 1.1;
 }
 
@@ -92,34 +154,38 @@
   align-items: center;
 }
 
+.applicant-details p strong {
+  color: var(--text-soft);
+}
+
 .recommendation-tag {
   font-size: 0.75rem;
   font-weight: 700;
   padding: 0.2rem 0.5rem;
-  border-radius: 6px;
+  border-radius: var(--radius-pill);
   text-transform: uppercase;
 }
 
 .recommendation-tag.highly-recommended {
-  background: #f0fdf4;
+  background: var(--success-light);
   color: var(--success);
   border: 1px solid rgba(22, 163, 74, 0.15);
 }
 
 .recommendation-tag.recommended {
-  background: #eff6ff;
+  background: var(--info-light);
   color: var(--primary);
   border: 1px solid rgba(37, 99, 235, 0.15);
 }
 
 .recommendation-tag.neutral {
-  background: #f8fafc;
+  background: var(--surface-2);
   color: var(--muted);
   border: 1px solid var(--border);
 }
 
 .recommendation-tag.not-recommended {
-  background: #fef2f2;
+  background: var(--danger-light);
   color: var(--danger);
   border: 1px solid rgba(220, 38, 38, 0.15);
 }
@@ -137,7 +203,8 @@
 .ats-score-meter-fill {
   height: 100%;
   border-radius: 999px;
-  transition: width 0.3s ease;
+  background: var(--grad-primary);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .applicant-status-row {
@@ -146,7 +213,7 @@
   align-items: center;
   font-size: 0.85rem;
   padding-top: 0.75rem;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--border-soft);
 }
 
 .status-badge {
@@ -154,7 +221,7 @@
   align-items: center;
   justify-content: center;
   padding: 0.25rem 0.6rem;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   color: white;
   font-size: 0.75rem;
   font-weight: 600;
@@ -172,19 +239,21 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  background: var(--surface-2);
-  color: var(--text) !important;
+  background: var(--surface);
+  color: var(--text-soft) !important;
   font-size: 0.8rem;
   font-weight: 600;
   padding: 0.6rem;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border);
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   text-align: center;
 }
 
 .view-resume-btn-link:hover {
-  background: var(--border);
+  background: var(--surface-3);
+  border-color: #c7d2fe;
+  color: var(--primary) !important;
 }
 
 .status-dropdown-select {
@@ -193,15 +262,17 @@
   font-weight: 600;
   color: var(--text);
   padding: 0.6rem;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border);
   background: #ffffff;
   cursor: pointer;
   outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .status-dropdown-select:focus {
   border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 .schedule-btn-applicants {
@@ -212,9 +283,9 @@
   font-size: 0.8rem;
   font-weight: 700;
   padding: 0.6rem;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -223,4 +294,5 @@
 
 .schedule-btn-applicants:hover {
   background: #fef3c7;
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.15);
 }

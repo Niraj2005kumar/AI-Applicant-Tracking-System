@@ -4,8 +4,6 @@ import Loader from "../../components/common/Loader";
 import "./Resume.css";
 
 const Resume = () => {
-  const { user, token } = useAuth();
-  
   const [resumePath, setResumePath] = useState("");
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(true);

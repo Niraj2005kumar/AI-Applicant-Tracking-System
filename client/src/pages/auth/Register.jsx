@@ -90,8 +90,13 @@ const Register = () => {
   };
 
   return (
-    <div className="auth-shell">
+<div className="auth-shell">
+      <div className="auth-grid" />
       <div className="auth-card">
+        <div className="auth-brand">
+          <div className="auth-brand-mark">AI</div>
+          <span>AI ATS</span>
+        </div>
         <h1>Create Account</h1>
 
         <p>Join the AI Applicant Tracking System</p>
