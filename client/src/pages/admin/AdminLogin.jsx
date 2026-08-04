@@ -47,7 +47,7 @@ const AdminLogin = () => {
 
         navigate("/admin/dashboard");
       } else {
-        // Access denied: reject login and auto logout
+
         setError("Access Denied. Administrator account required.");
 
         setTimeout(() => {

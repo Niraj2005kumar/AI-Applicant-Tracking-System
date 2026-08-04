@@ -11,12 +11,20 @@ import upload from "../middleware/uploadMiddleware.js";
 
 const router = express.Router();
 
+const conditionalResumeUpload = (req, res, next) => {
+  const contentType = req.headers["content-type"] || "";
+  if (contentType.startsWith("multipart/form-data")) {
+    return upload.single("resume")(req, res, next);
+  }
+  next();
+};
+
 // Apply - supports both POST /apply/:jobId and POST /:jobId
 router.post(
   "/apply/:jobId",
   authMiddleware,
   roleMiddleware("candidate"),
-  upload.single("resume"),
+  conditionalResumeUpload,
   applyForJob
 );
 
@@ -24,7 +32,7 @@ router.post(
   "/:jobId",
   authMiddleware,
   roleMiddleware("candidate"),
-  upload.single("resume"),
+  conditionalResumeUpload,
   applyForJob
 );
 

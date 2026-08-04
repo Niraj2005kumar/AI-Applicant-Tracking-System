@@ -51,7 +51,7 @@ const Jobs = () => {
 
   const applyJob = async (jobId) => {
     try {
-      await api.post(`/applications/${jobId}`);
+      await api.post(`/applications/${jobId}`, {});
 
       alert("Application submitted successfully.");
     } catch (error) {

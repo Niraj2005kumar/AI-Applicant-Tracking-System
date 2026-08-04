@@ -47,6 +47,8 @@ const Applicants = () => {
     setFilteredApplicants(filtered);
   };
 
+  
+
   const updateStatus = async (applicationId, status) => {
     try {
       await api.patch(`/applications/${applicationId}/status`, {

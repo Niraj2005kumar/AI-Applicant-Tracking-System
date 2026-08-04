@@ -22,6 +22,7 @@ import CandidateApplications from "../pages/candidate/Applications";
 import CandidateBookmarks from "../pages/candidate/Bookmarks";
 import CandidateResume from "../pages/candidate/Resume";
 import CandidateNotifications from "../pages/candidate/Notifications";
+import CandidateInterviews from "../pages/candidate/Interviews";
 
 // Recruiter Pages
 import RecruiterDashboard from "../pages/recruiter/Dashboard";
@@ -67,6 +68,10 @@ const AppRoutes = () => {
               <Route path="/candidate/applied-jobs" element={<CandidateApplications />} />
               <Route path="/candidate/saved-jobs" element={<CandidateBookmarks />} />
               <Route path="/candidate/notifications" element={<CandidateNotifications />} />
+              <Route path="/candidate/interviews" element={<CandidateInterviews />} />
+              <Route path="/candidate/jobs" element={<CandidateJobs />} />
+
+              
               <Route path="/jobs" element={<CandidateJobs />} />
             </Route>
           </Route>

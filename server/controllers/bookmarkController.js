@@ -100,7 +100,7 @@ export const removeBookmark = async (req, res) => {
 
     const bookmark = await Bookmark.findOne({
       candidate: req.user._id,
-      job: jobId,
+      $or: [{ job: jobId }, { _id: jobId }],
     });
 
     if (!bookmark) {
@@ -132,7 +132,7 @@ export const toggleFavorite = async (req, res) => {
 
     const bookmark = await Bookmark.findOne({
       candidate: req.user._id,
-      job: jobId,
+      $or: [{ job: jobId }, { _id: jobId }],
     });
 
     if (!bookmark) {

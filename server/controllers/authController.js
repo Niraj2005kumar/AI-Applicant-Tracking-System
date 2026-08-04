@@ -17,8 +17,10 @@ export const registerUser = async (req, res) => {
       location,
     } = req.body;
 
+    const normalizedEmail = email?.toLowerCase?.();
+
     // Check required fields
-    if (!name || !email || !password) {
+    if (!name || !normalizedEmail || !password) {
       return res.status(400).json({
         success: false,
         message: "Please fill all required fields.",
@@ -26,7 +28,7 @@ export const registerUser = async (req, res) => {
     }
 
     // Check if user already exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: normalizedEmail });
 
     if (existingUser) {
       return res.status(409).json({
@@ -42,7 +44,7 @@ export const registerUser = async (req, res) => {
     // Create User
     const user = await User.create({
       name,
-      email,
+      email: normalizedEmail,
       password: hashedPassword,
       role,
       phone,
@@ -91,8 +93,9 @@ export const loginUser = async (req, res) => {
   try {
 
     const { email, password } = req.body;
+    const normalizedEmail = email?.toLowerCase?.();
 
-    if (!email || !password) {
+    if (!normalizedEmail || !password) {
       return res.status(400).json({
         success: false,
         message: "Email and Password are required.",
@@ -100,7 +103,7 @@ export const loginUser = async (req, res) => {
     }
 
     // Find User
-    const user = await User.findOne({ email }).select("+password");
+    const user = await User.findOne({ email: normalizedEmail }).select("+password");
 
     if (!user) {
       return res.status(401).json({

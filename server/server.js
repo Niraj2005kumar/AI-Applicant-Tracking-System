@@ -33,7 +33,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/company", companyRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/interviews", interviewRoutes);
-app.use("/api/applications", applicationStatusRoutes);
 app.use("/api/notifications", notificationRoutes);
 
 app.use("/api/dashboard", dashboardRoutes);
@@ -42,6 +41,7 @@ app.use("/api/recruiter-dashboard", recruiterDashboardRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/applications", applicationRoutes);
+app.use("/api/applications", applicationStatusRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/bookmarks", bookmarkRoutes);
 app.use("/api/recruiter", recruiterRoutes);

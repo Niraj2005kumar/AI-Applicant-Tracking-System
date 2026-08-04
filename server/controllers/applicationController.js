@@ -8,7 +8,7 @@ import { extractTextFromPDF, parseResumeText, matchResumeWithJob } from "../serv
 // Apply for a Job
 export const applyForJob = async (req, res) => {
   try {
-    const { coverLetter } = req.body;
+    const { coverLetter } = req.body || {};
     const { jobId } = req.params;
 
     const job = await Job.findById(jobId);
@@ -92,25 +92,36 @@ export const applyForJob = async (req, res) => {
       console.error("AI Parsing failed during application:", parseErr);
     }
 
-    const application = await Application.create({
-      candidate: req.user._id,
-      job: jobId,
-      coverLetter: coverLetter || "",
-      resume: resumePath,
-      // AI details
-      resumeText,
-      skills: parsedResume.skills,
-      experience: parsedResume.experience,
-      education: parsedResume.education,
-      certifications: parsedResume.certifications,
-      projects: parsedResume.projects,
-      keywords: matchScores.keywords,
-      atsScore: matchScores.atsScore,
-      matchPercentage: matchScores.matchPercentage,
-      skillMatch: matchScores.skillMatch,
-      experienceMatch: matchScores.experienceMatch,
-      recommendation: matchScores.recommendation
-    });
+    let application;
+    try {
+      application = await Application.create({
+        candidate: req.user._id,
+        job: jobId,
+        coverLetter: coverLetter || "",
+        resume: resumePath,
+        // AI details
+        resumeText,
+        skills: parsedResume.skills,
+        experience: parsedResume.experience,
+        education: parsedResume.education,
+        certifications: parsedResume.certifications,
+        projects: parsedResume.projects,
+        keywords: matchScores.keywords,
+        atsScore: matchScores.atsScore,
+        matchPercentage: matchScores.matchPercentage,
+        skillMatch: matchScores.skillMatch,
+        experienceMatch: matchScores.experienceMatch,
+        recommendation: matchScores.recommendation,
+      });
+    } catch (dbError) {
+      if (dbError.code === 11000) {
+        return res.status(400).json({
+          success: false,
+          message: "You have already applied for this job.",
+        });
+      }
+      throw dbError;
+    }
 
     await createNotification({
       recipient: job.recruiter,
@@ -127,11 +138,11 @@ export const applyForJob = async (req, res) => {
       application,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Application error:", error.stack || error);
 
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: error.message || "Internal Server Error",
     });
   }
 };

@@ -19,6 +19,7 @@ const Sidebar = () => {
     { name: "Saved Jobs", path: "/candidate/saved-jobs" },
     { name: "Resume", path: "/candidate/resume" },
     { name: "Notifications", path: "/candidate/notifications" },
+    { name: "Interviews", path: "/candidate/interviews" },
     { name: "Settings", path: "/candidate/profile" },
   ];
 

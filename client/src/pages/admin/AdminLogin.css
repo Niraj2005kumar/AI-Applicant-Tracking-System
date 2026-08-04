@@ -1,8 +1,3 @@
-/* ============================================
-   AI ATS — Admin Login
-   Premium Microsoft/AWS/Stripe-style admin auth
-   ============================================ */
-
 .admin-login-shell {
   min-height: 100vh;
   position: relative;
@@ -104,6 +99,7 @@
     opacity: 0;
     transform: translateY(18px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -168,9 +164,19 @@
 }
 
 @keyframes adminShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  75% {
+    transform: translateX(5px);
+  }
 }
 
 /* --- Form --- */
@@ -198,7 +204,7 @@
   align-items: center;
 }
 
-.admin-input-wrap > svg {
+.admin-input-wrap>svg {
   position: absolute;
   left: 14px;
   width: 18px;
@@ -208,7 +214,7 @@
   transition: color 0.2s ease;
 }
 
-.admin-input-wrap:focus-within > svg {
+.admin-input-wrap:focus-within>svg {
   color: #60a5fa;
 }
 
@@ -341,7 +347,9 @@
 }
 
 @keyframes adminSpin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* --- Footer --- */
@@ -406,4 +414,3 @@
     gap: 10px;
   }
 }
-

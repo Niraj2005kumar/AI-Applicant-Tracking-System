@@ -28,17 +28,33 @@ const storage = multer.diskStorage({
 
 // File Filter
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = [
+  const resumeTypes = [
     "application/pdf",
     "application/msword",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   ];
 
+  const logoTypes = [
+    "image/png",
+    "image/jpeg",
+    "image/jpg",
+    "image/gif",
+    "image/webp",
+    "image/svg+xml",
+  ];
+
+  const allowedTypes =
+    file.fieldname === "logo" ? logoTypes : resumeTypes;
+
   if (allowedTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
     cb(
-      new Error("Only PDF, DOC and DOCX files are allowed."),
+      new Error(
+        file.fieldname === "logo"
+          ? "Only image files are allowed for company logo uploads."
+          : "Only PDF, DOC and DOCX files are allowed for resume uploads."
+      ),
       false
     );
   }
